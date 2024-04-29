@@ -47,6 +47,15 @@ app.get('/artAndCrafts/:id', async(req,res) =>{
     res.send(result);
 })
 
+// for my art and craft list
+app.get('/MyArtAndCrafts/:email', async(req,res) =>{
+  const email = req.params.email
+  const result  = await artAndCraftsCollection.find({email})
+  .toArray();
+  
+  res.send(result)
+})
+
 // create
   app.post('/artAndCrafts', async (req,res) =>{
     const newData = req.body
