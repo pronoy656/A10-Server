@@ -64,6 +64,38 @@ app.get('/MyArtAndCrafts/:email', async(req,res) =>{
     res.send(result)
   })
 
+  // update
+  app.put('/artAndCrafts/:id', async (req,res) =>{
+    const id = req.params.id
+    const filter = {_id: new ObjectId(id)}
+    const options = {upsert : true}
+    const updateItem = req.body
+    const item = {
+      $set:{
+        item: updateItem.item,
+        image: updateItem.image,
+        subCategory: updateItem.subCategory,
+        description: updateItem.description,
+        price: updateItem.price,
+        rating: updateItem.rating,
+        customize: updateItem.customize,
+        processTime: updateItem.processTime,
+        stockStatus: updateItem.stockStatus,
+      
+      }
+    }
+    const result = await artAndCraftsCollection.updateOne(filter,item, options)
+    res.send(result)
+  })
+
+  // Delete
+  app.delete('/artAndCrafts/:id', async (req,res) =>{
+    const id = req.params.id
+    const query = {_id: new ObjectId(id)}
+    const result = await artAndCraftsCollection.deleteOne(query)
+    res.send(result)
+  })
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
